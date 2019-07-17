@@ -12,3 +12,4 @@ Wbotron has the following features so far:
 - List buckets
 - List the objects within the bucket
 - Create and setup a new bucket
+- Sync directory tree to bucket
