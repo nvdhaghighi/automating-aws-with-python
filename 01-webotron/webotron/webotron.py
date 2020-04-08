@@ -4,8 +4,12 @@ from botocore.exceptions import ClientError
 from pathlib import Path
 import mimetypes
 
-session = boto3.Session(profile_name='PythonAutomation')
-s3 = session.resource('s3')
+from bucket import BucketManager
+
+
+session = boto3.Session()
+#s3 = session.resource('s3')
+bucket_manager=BucketManager(session)
 
 @click.group()
 def cli():
@@ -15,7 +19,7 @@ def cli():
 @cli.command('list-buckets')
 def list_buckets():
     "List all s3 buckets"
-    for bucket in s3.buckets.all():
+    for bucket in bucket_manager.s3.buckets.all():
         print(bucket)
 
 @cli.command('list-bucket-objects')
