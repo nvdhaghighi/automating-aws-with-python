@@ -1,7 +1,7 @@
 {
   "videolyzer": {
     "profile": "",
-    "videos_bucket": "",
-    "videos_table": ""
+    "video_bucket": "videolyzer-navid1",
+    "video_table": ""
   }
 }
