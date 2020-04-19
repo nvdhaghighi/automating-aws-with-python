@@ -1,32 +1,26 @@
 # coding: utf-8
-import boto
 import boto3
-session=boto3.Session()
-get_ipython().run_line_magic('clear', '')
-s3=session.resource('s3')
-bucket=s3.create_bucket('videolyzer-navid')
-bucket=s3.create_bucket(Bucket='videolyzer-navid')
-bucket
-get_ipython().run_line_magic('ls', '/Users/navidhaghighi/Downloads/*.mp4')
-pathname='/Users/navidhaghighi/Downloads/Pexels Videos 1466210.mp4'
+session = boto3.Session(profile_name='pythonAutomation')
+s3 = session.resource('s3')
+bucket = s3.create_bucket(Bucket='robinvideolyzervideos')
+bucket = s3.create_bucket(Bucket='robinvideolyzervideos', LocationConstraint=session.region_name)
+bucket = s3.create_bucket(Bucket='robinvideolyzervideos')
+bucket = s3.create_bucket(Bucket='robinvideolyzervideos', CreateBucketConfiguration={'LocationConstraint': session.region_name})
 from pathlib import Path
-path=Path(pathname).expanduser().resolve()
+get_ipython().run_line_magic('ls', '/Users/rnorwood/Downloads/*.mp4')
+pathname = '~/Downloads/Blurry Video Of People Working.mp4'
+path = Path(pathname).expanduser().resolve()
 print(path)
-path.name
 bucket.upload_file(str(path), str(path.name))
-rekognition_client=session.client('rekognition')
-response = client.start_label_detection(Video={'S3Object': {'Bucket': bucket.name,'Name': path.name}})
-response = rekognition_client.start_label_detection(Video={'S3Object': {'Bucket': bucket.name,'Name': path.name}})
+rekognition_client = session.client('rekognition')
+response = rekognition_client.start_label_detection(Video={'S3Object': { 'Bucket': bucket.name, 'Name': path.name}})
 response
-job_id=response['JobId']
-result=response = client.get_label_detection(
-    JobId=job_id
-)
-result=rekognition_client.get_label_detection(
-    JobId=job_id
-)
+job_id = response['JobId']
+result = rekognition_client.get_label_detection(JobId=job_id)
 result
 result.keys()
+result['JobStatus']
+result['ResponseMetadata']
+result['VideoMetadata']
 result['Labels']
 len(result['Labels'])
-get_ipython().run_line_magic('save', 'label-detection.py 1-30')
